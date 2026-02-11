@@ -1,0 +1,106 @@
+# DietTailor Web — Cursor Project Rules
+
+## About the App
+
+DietTailor is a personalized nutrition and meal delivery mobile app (built with React Native / Expo). This project is the **marketing landing page / website** for the app.
+
+### What DietTailor Does
+
+DietTailor helps users eat healthy through three core features:
+
+1. **Custom Meal Bowl** — Users set their macronutrient targets (protein, carbs, fiber), choose food sources and dishes, and get a custom-built meal bowl tailored to their body and goals.
+
+2. **Meal Subscription** — Users subscribe to weekly/monthly healthy meal plans. Meals are delivered daily to their doorstep. Plans include veg, non-veg, and mixed options with different calorie tiers.
+
+3. **Diet Consultation** — Users can book sessions with certified dietitians/nutritionists for personalized dietary advice, meal planning, and health guidance.
+
+### Target Audience
+- Health-conscious individuals
+- Fitness enthusiasts tracking macros
+- Busy professionals wanting healthy meal delivery
+- People seeking professional dietary guidance
+
+---
+
+## Design System & Theme
+
+### Colors (use these everywhere)
+
+| Token             | Hex       | Usage                        |
+|-------------------|-----------|------------------------------|
+| Primary           | `#065F46` | Headings, buttons, footer    |
+| Primary Light     | `#059669` | Accents, hover states, links |
+| Accent            | `#34D399` | Badges, highlights           |
+| Light Green       | `#D1FAE5` | Tags, pills, light fills     |
+| Background        | `#F0FDF4` | Section backgrounds          |
+| White             | `#FFFFFF` | Cards, main bg               |
+| Text              | `#065F46` | Body text, titles            |
+| Text Secondary    | `#047857` | Subtitles, descriptions      |
+| Gradient Start    | `#c9fbb0` | Hero/banner gradients        |
+| Shadow            | `rgba(5, 150, 105, 0.15)` | Card shadows    |
+| Border            | `rgba(6, 95, 70, 0.1)` | Card borders       |
+
+### Gradient
+- Hero/banner: `from-[#c9fbb0] via-white to-white`
+- CTA sections: `from-[#065F46] to-[#059669]`
+
+### Typography
+- Font: **Nunito Sans** (loaded via next/font/google)
+- Headings: `font-extrabold` (800 weight)
+- Body: `font-medium` or `font-semibold` (500-600 weight)
+- Style: Clean, modern, rounded feel
+
+### UI Style
+- Rounded corners: `rounded-2xl` to `rounded-3xl` for cards
+- Subtle borders: `border border-[#065F46]/10`
+- Soft shadows: green-tinted shadows
+- Cards: White background, light border, subtle shadow
+- Buttons: Pill-shaped (`rounded-full`), solid primary green or outlined
+- Spacing: Generous whitespace, sections padded `py-20 md:py-28`
+
+---
+
+## Tech Stack
+
+- **Framework:** Next.js (App Router, TypeScript)
+- **Styling:** Tailwind CSS
+- **Font:** Nunito Sans
+- **Images:** In `/public/images/`
+- **Deployment:** Vercel (planned)
+
+---
+
+## Project Structure
+
+```
+src/app/
+  layout.tsx     — Root layout with font + metadata
+  globals.css    — Tailwind imports + CSS variables
+  page.tsx       — Landing page (all sections)
+public/images/
+  logo.png       — App logo
+  onboard1.jpeg  — Custom bowl feature image
+  onboard2.jpeg  — Meal subscription feature image
+  onboard3.jpeg  — Consultation feature image
+```
+
+---
+
+## Key Assets
+
+- **Logo:** `/public/images/logo.png`
+- **Feature images:** `onboard1.jpeg`, `onboard2.jpeg`, `onboard3.jpeg`
+- These are the same 3D illustrations used in the mobile app's onboarding screens
+
+---
+
+## Rules for Development
+
+1. Always use the green color palette above — never introduce new colors
+2. Keep the rounded, soft, modern aesthetic
+3. Use Tailwind utility classes, avoid custom CSS unless necessary
+4. All images go in `/public/images/`
+5. Keep the landing page fast — static rendering, no unnecessary client components
+6. Mobile-first responsive design
+7. Sections should feel spacious with generous padding
+8. Cards should have white backgrounds with subtle green-tinted borders and shadows
