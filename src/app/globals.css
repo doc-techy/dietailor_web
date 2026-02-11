@@ -1,25 +1,18 @@
 @import "tailwindcss";
 
 :root {
-  /* DietTailor Palette */
-  --background: #F0FDF4; /* Very Light Mint */
-  --foreground: #065F46; /* Deep Green Text */
+  --background: #050505;
+  --foreground: #ffffff;
   
-  --primary: #065F46; /* Deep Green */
-  --primary-foreground: #FFFFFF;
-  
-  --secondary: #059669; /* Emerald Green */
-  --secondary-foreground: #FFFFFF;
-  
-  --accent: #34D399; /* Mint Green */
-  --accent-foreground: #064E3B;
-  
-  --surface: #FFFFFF;
-  --surface-highlight: #D1FAE5; /* Light Green */
+  /* Crazy Palette */
+  --primary: #CCFF00; /* Neon Lime */
+  --secondary: #FF00FF; /* Hot Magenta */
+  --accent: #00FFFF; /* Cyan */
+  --surface: #121212;
+  --surface-highlight: #1E1E1E;
   
   /* Gradients */
-  --gradient-main: linear-gradient(135deg, #065F46 0%, #059669 100%);
-  --gradient-soft: linear-gradient(135deg, #F0FDF4 0%, #D1FAE5 100%);
+  --gradient-crazy: linear-gradient(135deg, #CCFF00 0%, #00FFFF 50%, #FF00FF 100%);
 }
 
 @theme inline {
@@ -40,6 +33,7 @@ body {
   color: var(--foreground);
   font-family: var(--font-outfit), sans-serif;
   overflow-x: hidden;
+  cursor: crosshair;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -47,10 +41,10 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-syne), sans-serif;
 }
 
-/* ─── UTILITIES ─── */
+/* ─── CRAZY UTILITIES ─── */
 
 .text-stroke {
-  -webkit-text-stroke: 1px rgba(6, 95, 70, 0.3); /* Dark Green Stroke */
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
   color: transparent;
 }
 
@@ -60,11 +54,19 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .glass-morphism {
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(6, 95, 70, 0.1);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.neon-shadow {
+  box-shadow: 0 0 10px rgba(204, 255, 0, 0.5), 0 0 20px rgba(204, 255, 0, 0.3);
+}
+
+.neon-text {
+  text-shadow: 0 0 10px rgba(204, 255, 0, 0.5);
 }
 
 /* ─── ANIMATED BACKGROUND BLOB ─── */
@@ -77,7 +79,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .animate-blob {
-  animation: blob 10s infinite;
+  animation: blob 7s infinite;
 }
 
 .animation-delay-2000 {
@@ -98,8 +100,25 @@ h1, h2, h3, h4, h5, h6 {
   height: 100%;
   pointer-events: none;
   z-index: 9999;
-  opacity: 0.03;
+  opacity: 0.05;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* ─── GLITCH EFFECT (MOBILE) ─── */
+
+@keyframes glitch-skew {
+  0% { transform: skew(0deg); }
+  20% { transform: skew(-2deg); }
+  40% { transform: skew(2deg); }
+  60% { transform: skew(-1deg); }
+  80% { transform: skew(1deg); }
+  100% { transform: skew(0deg); }
+}
+
+.hover-glitch:active {
+  animation: glitch-skew 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+  color: var(--primary);
+  text-shadow: 2px 0 var(--secondary), -2px 0 var(--accent);
 }
 
 /* ─── SCROLLBAR ─── */
