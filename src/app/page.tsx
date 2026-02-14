@@ -23,7 +23,16 @@ import {
   Clock,
   Code,
   Rocket,
-  Globe
+  Globe,
+  Instagram,
+  Twitter,
+  Linkedin,
+  Mail,
+  Star,
+  Quote,
+  Facebook,
+  MapPin,
+  Phone
 } from "lucide-react";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
@@ -115,66 +124,136 @@ const AppWidget = ({ title, value, icon: Icon, color = "bg-primary", delay = 0 }
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const navLinks = [
+    { label: "Home", href: "#home" },
+    { label: "Services", href: "#services" },
+    { label: "Story", href: "#story" },
+    { label: "Team", href: "#team" },
+    { label: "Mission", href: "#mission" },
+  ];
 
   return (
     <>
-      <motion.nav 
+      <motion.nav
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-6 py-6 pointer-events-none"
+        transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+        className={cn(
+          "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
+          scrolled
+            ? "bg-black/40 backdrop-blur-2xl border-b border-white/[0.06] shadow-[0_4px_30px_rgba(0,0,0,0.3)]"
+            : "bg-transparent"
+        )}
       >
-        <div className="pointer-events-auto bg-black/50 backdrop-blur-xl border border-white/10 px-6 py-3 rounded-full flex items-center gap-2">
-          <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-black font-bold">D</div>
-          <span className="font-syne font-bold text-lg hidden md:block">DietTailor</span>
-        </div>
-
-        <div className="pointer-events-auto flex gap-4">
-          <button 
-            onClick={() => setIsOpen(true)}
-            className="md:hidden bg-white/10 text-white w-12 h-12 rounded-full flex items-center justify-center backdrop-blur-md"
-          >
-             <Menu />
-          </button>
-          <a href="#download" className="hidden md:flex group bg-white text-black font-bold px-6 py-3 rounded-full items-center gap-2 hover:bg-primary transition-colors">
-            <span>Get App</span>
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+        <div className="max-w-7xl mx-auto px-5 md:px-8 h-16 md:h-[72px] flex items-center justify-between">
+          {/* Logo */}
+          <a href="#home" className="flex items-center gap-2.5 group">
+            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-black font-bold text-sm font-syne transition-transform group-hover:scale-110 group-hover:rotate-3">
+              D
+            </div>
+            <span className="font-syne font-bold text-lg text-white">
+              Die<span className="text-primary">Tailor</span>
+            </span>
           </a>
+
+          {/* Desktop Nav Links */}
+          <div className="hidden md:flex items-center gap-1">
+            {navLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                className="relative px-4 py-2 text-sm font-outfit font-medium text-gray-400 hover:text-white transition-colors duration-300 rounded-lg hover:bg-white/[0.04]"
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+
+          {/* Right Side */}
+          <div className="flex items-center gap-3">
+            <a
+              href="#download"
+              className="hidden md:flex items-center gap-2 bg-white text-black font-bold text-sm px-5 py-2.5 rounded-full hover:bg-primary transition-colors duration-300 group"
+            >
+              <span className="font-outfit">Get App</span>
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+            </a>
+
+            {/* Mobile Menu Toggle */}
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="md:hidden relative w-10 h-10 rounded-xl bg-white/[0.06] border border-white/[0.08] flex items-center justify-center text-white hover:bg-white/10 transition-colors"
+            >
+              <motion.div animate={{ rotate: isOpen ? 90 : 0 }} transition={{ duration: 0.2 }}>
+                {isOpen ? <X size={18} /> : <Menu size={18} />}
+              </motion.div>
+            </button>
+          </div>
         </div>
       </motion.nav>
 
-      {/* FREAKY MOBILE MENU */}
+      {/* Mobile Menu Dropdown */}
       <AnimatePresence>
         {isOpen && (
-           <motion.div 
-             initial={{ opacity: 0, scale: 1.1 }}
-             animate={{ opacity: 1, scale: 1 }}
-             exit={{ opacity: 0, scale: 0.95 }}
-             className="fixed inset-0 z-[100] bg-black flex flex-col justify-center items-center p-6"
-           >
-             <div className="absolute inset-0 bg-primary/5 mix-blend-overlay pointer-events-none" />
-             <button 
-               onClick={() => setIsOpen(false)}
-               className="absolute top-6 right-6 w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-white"
-             >
-               <X />
-             </button>
-
-             <div className="flex flex-col gap-8 text-center">
-                {["Home", "Features", "Story", "Team", "Mission"].map((item, i) => (
-                  <motion.a 
-                    key={item}
-                    href={`#${item.toLowerCase()}`}
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="fixed top-16 left-0 right-0 z-40 overflow-hidden md:hidden"
+          >
+            <div className="bg-black/70 backdrop-blur-2xl border-b border-white/[0.06]">
+              <div className="px-5 py-4 flex flex-col gap-1">
+                {navLinks.map((link, i) => (
+                  <motion.a
+                    key={link.label}
+                    href={link.href}
                     onClick={() => setIsOpen(false)}
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: i * 0.1 }}
-                    className="text-6xl font-syne font-black uppercase text-transparent bg-clip-text bg-gradient-to-b from-white to-white/50 hover:to-primary active:skew-x-12 transition-transform"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.05, duration: 0.3 }}
+                    className="flex items-center justify-between px-4 py-3.5 rounded-xl text-gray-300 hover:text-white hover:bg-white/[0.04] transition-all duration-300 group"
                   >
-                    {item}
+                    <span className="font-outfit font-medium text-[15px]">{link.label}</span>
+                    <ArrowRight size={14} className="text-gray-600 group-hover:text-primary group-hover:translate-x-1 transition-all" />
                   </motion.a>
                 ))}
-             </div>
-           </motion.div>
+
+                <div className="pt-3 pb-1">
+                  <a
+                    href="#download"
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center justify-center gap-2 bg-white text-black font-bold text-sm py-3 rounded-full hover:bg-primary transition-colors duration-300 font-outfit"
+                  >
+                    Get the App
+                    <ArrowRight size={16} />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Backdrop overlay for mobile menu */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            onClick={() => setIsOpen(false)}
+            className="fixed inset-0 z-30 bg-black/40 md:hidden"
+          />
         )}
       </AnimatePresence>
     </>
@@ -202,9 +281,6 @@ function Hero() {
           transition={{ duration: 0.8 }}
           className="text-center lg:text-left pt-20 lg:pt-0"
         >
-          <div className="inline-block border border-primary text-primary px-4 py-1.5 rounded-full text-sm font-bold tracking-widest uppercase mb-6 hover:bg-primary hover:text-black transition-colors cursor-default animate-pulse">
-            v2.0 Now Live
-          </div>
           <h1 className="text-[15vw] lg:text-9xl font-syne font-bold leading-[0.8] mb-6 tracking-tighter hover-glitch select-none">
             EAT.<br />
             <span className="text-stroke text-white/10">TRACK.</span><br />
@@ -264,7 +340,7 @@ function Hero() {
             {/* Fake App UI - Dashboard */}
             <div className="flex justify-between items-center mb-6">
               <div>
-                <h2 className="text-2xl font-bold font-syne">Hello, Vimal!</h2>
+                <h2 className="text-2xl font-bold font-syne">Dashboard</h2>
                 <p className="text-xs text-gray-400">Let's hit those macros.</p>
               </div>
               <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center">
@@ -348,7 +424,7 @@ const servicesData = [
     id: 4,
     title: "EXPERT CHAT",
     desc: "Real RDs in your pocket 24/7. Get meal audits, motivation, and science-backed advice.",
-    image: "/images/onboard1.jpeg",
+    image: "/images/onboard4.jpeg",
     color: "#FFFFFF",
     text: "text-black",
     accent: "bg-black text-white"
@@ -364,12 +440,11 @@ function FeatureSection() {
       cycleCard();
     }, 4000); 
     return () => clearInterval(interval);
-  }, [cycle]); // Re-bind with new cycle value
+  }, [cycle]);
 
   const cycleCard = () => {
     setCards((current) => {
       const [top, ...rest] = current;
-      // Create a "new" version of the top card with a unique key so it re-enters
       const newBottom = { ...top, uniqueId: `${top.id}-${cycle}` };
       return [...rest, newBottom];
     });
@@ -380,12 +455,12 @@ function FeatureSection() {
     <section id="services" className="py-20 relative overflow-hidden min-h-screen flex flex-col items-center justify-center bg-black">
       <div className="absolute top-10 left-0 right-0 text-center z-10 px-6">
          <motion.h2 
-            key={cards[0].id} // Animate text change subtly or keep static? Keep static title.
+            key={cards[0].id}
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-4xl md:text-6xl font-syne font-bold uppercase text-white"
          >
-            Services That <span className="text-transparent bg-clip-text bg-gradient-crazy">Slap.</span>
+            Services That <span className="text-transparent bg-clip-text" style={{ backgroundImage: "linear-gradient(135deg, #CCFF00 0%, #00FFFF 50%, #FF00FF 100%)" }}>Slap.</span>
          </motion.h2>
       </div>
 
@@ -393,14 +468,13 @@ function FeatureSection() {
       <div className="w-full h-[80vh] relative flex items-center justify-center perspective-[1200px] mt-10">
           <AnimatePresence mode="popLayout">
             {cards.map((card, index) => {
-              // Only render top 3 for performance and clean look, or all if needed. Render all for smoothness.
               if (index > 3) return null; 
               
               const isTop = index === 0;
               
               return (
                 <motion.div
-                  key={card.uniqueId} // Crucial: Unique key forces unmount/mount for the cycle effect
+                  key={card.uniqueId}
                   layout
                   initial={{ scale: 0.8, y: 100, opacity: 0 }}
                   animate={{ 
@@ -499,16 +573,16 @@ function StorySection() {
            initial={{ opacity: 0, rotate: -5 }}
            whileInView={{ opacity: 1, rotate: -3 }}
            transition={{ duration: 0.8 }}
-           className="relative"
+           className="relative max-w-[440px] mx-auto"
         >
           {/* Polaroid Frame */}
-          <div className="bg-white p-4 pb-16 rounded shadow-2xl transform hover:scale-105 transition-transform duration-500">
-             <div className="relative aspect-square bg-gray-200 overflow-hidden grayscale contrast-125 hover:grayscale-0 transition-all duration-500">
-                <Image src="/images/onboard1.jpeg" alt="The First Bowl" fill className="object-cover" />
+          <div className="bg-white p-4 pb-14 rounded shadow-2xl transform hover:scale-105 transition-transform duration-500">
+             <div className="relative aspect-auto bg-gray-200 overflow-hidden hover:grayscale-0 transition-all duration-500">
+                <Image src="/images/first_bowl.jpeg" alt="The First Bowl" width={440} height={440} className="w-full h-auto" />
                 <div className="absolute inset-0 bg-noise opacity-20 pointer-events-none" />
              </div>
              <div className="absolute bottom-4 left-0 right-0 text-center font-marker text-2xl text-black font-bold font-syne rotate-[-2deg]">
-               The First Bowl (2020)
+               The First Bowl (2024)
              </div>
           </div>
           {/* Tape Effect */}
@@ -545,10 +619,8 @@ function StorySection() {
 
 function TeamSection() {
   const team = [
-    { name: "Vimal", role: "Chief Feeder", icon: "👨‍🍳", color: "bg-primary" },
-    { name: "Sarah", role: "Macro Wizard", icon: "🧪", color: "bg-secondary" },
-    { name: "Davide", role: "Code Ninja", icon: "💻", color: "bg-accent" },
-    { name: "Alex", role: "Hype Beast", icon: "🚀", color: "bg-orange-500" },
+    { name: "Yajnesh Shetty", role: "CEO", icon: "🚀", color: "bg-primary" },
+    { name: "Vimal Shetty", role: "CTO", icon: "💻", color: "bg-accent" },
   ];
 
   return (
@@ -568,7 +640,7 @@ function TeamSection() {
             <p className="text-gray-400">Built by humans (and a lot of caffeine).</p>
          </div>
 
-         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8 max-w-2xl mx-auto">
             {team.map((member, i) => (
                <motion.div
                  key={i}
@@ -607,14 +679,6 @@ function MissionSection() {
              whileInView={{ opacity: 1, scale: 1 }}
              className="border border-white/20 p-8 md:p-16 rounded-[3rem] bg-gradient-to-b from-surface-highlight to-black relative overflow-hidden"
           >
-             {/* Coding Terminal Aesthetic */}
-             <div className="flex gap-2 mb-8 justify-center">
-                <div className="w-3 h-3 rounded-full bg-red-500" />
-                <div className="w-3 h-3 rounded-full bg-yellow-500" />
-                <div className="w-3 h-3 rounded-full bg-green-500" />
-             </div>
-
-             <Code className="w-12 h-12 text-primary mx-auto mb-6 opacity-50" />
              
              <h2 className="text-4xl md:text-6xl font-syne font-bold uppercase mb-8 leading-tight">
                 Our Mission is to <br />
@@ -639,50 +703,34 @@ function MissionSection() {
 }
 
 function Marquee() {
-  const { scrollY } = useScroll();
-  // Speed up marquee on scroll
-  const x = useTransform(scrollY, [0, 1000], [0, -500]);
-
   return (
-    <div className="py-12 bg-primary rotate-[-2deg] scale-110 border-y-4 border-black overflow-hidden relative z-20">
-      <motion.div 
-        style={{ x }}
-        className="flex whitespace-nowrap text-black font-black text-6xl md:text-8xl font-syne"
-      >
-        <motion.div 
-          animate={{ x: [0, -1000] }}
-          transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-          className="flex"
-        >
-          <span>NO BORING FOOD • REAL RESULTS • FRESH INGREDIENTS •&nbsp;</span>
-          <span>NO BORING FOOD • REAL RESULTS • FRESH INGREDIENTS •&nbsp;</span>
-          <span>NO BORING FOOD • REAL RESULTS • FRESH INGREDIENTS •&nbsp;</span>
-        </motion.div>
-      </motion.div>
+    <div className="py-8 md:py-10 bg-primary rotate-[-2deg] scale-110 border-y-2 border-black overflow-hidden relative z-20">
+      <div className="flex whitespace-nowrap text-black font-black text-3xl md:text-5xl font-syne animate-marquee-infinite">
+        <span className="mx-4">NO BORING FOOD • REAL RESULTS • FRESH INGREDIENTS •</span>
+        <span className="mx-4">NO BORING FOOD • REAL RESULTS • FRESH INGREDIENTS •</span>
+        <span className="mx-4">NO BORING FOOD • REAL RESULTS • FRESH INGREDIENTS •</span>
+        <span className="mx-4">NO BORING FOOD • REAL RESULTS • FRESH INGREDIENTS •</span>
+        <span className="mx-4">NO BORING FOOD • REAL RESULTS • FRESH INGREDIENTS •</span>
+        <span className="mx-4">NO BORING FOOD • REAL RESULTS • FRESH INGREDIENTS •</span>
+      </div>
     </div>
   );
 }
 
 function DownloadSection() {
   return (
-    <section id="download" className="py-20 md:py-32 px-4 md:px-6 relative overflow-hidden">
-      <div className="max-w-6xl mx-auto relative z-10">
-        <div className="bg-gradient-to-br from-gray-900 to-black border border-white/10 rounded-[2rem] md:rounded-[3rem] p-8 md:p-24 text-center overflow-hidden relative">
-          
-          {/* Decorative Grid */}
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem]" />
-
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            whileInView={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            className="relative z-10"
-          >
-            <h2 className="text-4xl md:text-8xl font-syne font-bold mb-8 uppercase leading-none">
-              Ready to <span className="text-transparent bg-clip-text bg-gradient-crazy">Level Up?</span>
+    <section id="download" className="py-20 md:py-32 relative overflow-hidden bg-black">
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        whileInView={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className="relative z-10 text-center w-full px-6"
+      >
+            <h2 className="text-[8.5vw] md:text-8xl font-syne font-bold mb-8 uppercase leading-none whitespace-nowrap">
+              Ready to <span className="text-transparent bg-clip-text" style={{ backgroundImage: "linear-gradient(135deg, #CCFF00 0%, #00FFFF 50%, #FF00FF 100%)" }}>Level Up?</span>
             </h2>
             <p className="text-lg md:text-xl text-gray-400 mb-12 max-w-2xl mx-auto font-outfit">
-              Join 50,000+ users transforming their bodies with DietTailor.
+              Join 50,000+ users transforming their bodies with DieTailor.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center">
@@ -701,7 +749,147 @@ function DownloadSection() {
                 <span className="text-2xl">▶</span> Play Store
               </motion.button>
             </div>
+      </motion.div>
+    </section>
+  );
+}
+
+/* ───────── REVIEWS SECTION ───────── */
+
+const reviews = [
+  {
+    name: "Aarav K.",
+    handle: "@aarav_fitlife",
+    avatar: "🔥",
+    rating: 5,
+    text: "Bro this app literally changed how I eat. Custom bowls are insane and the macro tracking is so clean. 10/10 no cap.",
+    tag: "Custom Bowls",
+    color: "from-[#CCFF00]/20 to-transparent",
+    border: "border-[#CCFF00]/20",
+  },
+  {
+    name: "Priya S.",
+    handle: "@priya.eats",
+    avatar: "✨",
+    rating: 5,
+    text: "The AI suggestions are scarily accurate. It knew I was low on protein before I did. Also the UI is gorgeous??",
+    tag: "AI Powered",
+    color: "from-[#FF00FF]/20 to-transparent",
+    border: "border-[#FF00FF]/20",
+  },
+  {
+    name: "Rohan M.",
+    handle: "@rohan_gains",
+    avatar: "💪",
+    rating: 5,
+    text: "Deleted MyFitnessPal after one week with DieTailor. The meal subscriptions are a game changer for my prep.",
+    tag: "Meal Subs",
+    color: "from-[#00FFFF]/20 to-transparent",
+    border: "border-[#00FFFF]/20",
+  },
+  {
+    name: "Sneha R.",
+    handle: "@sneha.wellness",
+    avatar: "🌱",
+    rating: 5,
+    text: "Finally an app that doesn't feel like a chore. The expert chat helped me fix my diet in literally 2 weeks.",
+    tag: "Expert Chat",
+    color: "from-[#CCFF00]/20 to-transparent",
+    border: "border-[#CCFF00]/20",
+  },
+  {
+    name: "Dev P.",
+    handle: "@dev.codes.eats",
+    avatar: "🚀",
+    rating: 4,
+    text: "As a developer who forgets to eat — this app is a lifesaver. Auto-scheduling meals + reminders = chef's kiss.",
+    tag: "Scheduling",
+    color: "from-[#FF00FF]/20 to-transparent",
+    border: "border-[#FF00FF]/20",
+  },
+  {
+    name: "Ananya T.",
+    handle: "@ananya.fit",
+    avatar: "💜",
+    rating: 5,
+    text: "The chef's specials are UNREAL. Limited drops that actually taste amazing AND hit my macros? Obsessed.",
+    tag: "Chef Specials",
+    color: "from-[#00FFFF]/20 to-transparent",
+    border: "border-[#00FFFF]/20",
+  },
+];
+
+function ReviewsSection() {
+  return (
+    <section className="py-12 md:py-20 bg-black relative overflow-hidden">
+      {/* Background glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[150px] pointer-events-none" />
+
+      <div className="relative z-10">
+        {/* Header */}
+        <div className="text-center mb-10 px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-4xl md:text-7xl font-syne font-bold uppercase text-white mb-4">
+              Don't Take <span className="text-transparent bg-clip-text" style={{ backgroundImage: "linear-gradient(135deg, #CCFF00 0%, #00FFFF 50%, #FF00FF 100%)" }}>Our Word</span>
+            </h2>
+            <p className="font-outfit text-lg md:text-xl max-w-3xl mx-auto whitespace-nowrap text-primary font-bold">
+              Real people. Real results. Here's what the community can't stop talking about.
+            </p>
           </motion.div>
+        </div>
+
+        {/* Infinite scrolling reviews row — full viewport width */}
+        <div className="w-screen overflow-hidden">
+          <div className="flex animate-reviews-scroll hover:[animation-play-state:paused]">
+            {[...reviews, ...reviews].map((review, i) => (
+              <div
+                key={i}
+                className={cn(
+                  "group relative bg-gradient-to-b rounded-2xl p-5 border backdrop-blur-sm cursor-default shrink-0 w-[340px] mx-3",
+                  review.color,
+                  review.border
+                )}
+              >
+                {/* Quote icon */}
+                <Quote size={28} className="absolute top-4 right-4 text-white/[0.04] group-hover:text-white/[0.08] transition-colors" />
+
+                {/* Header */}
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-lg">
+                    {review.avatar}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-syne font-bold text-white text-sm truncate">{review.name}</p>
+                    <p className="text-xs text-gray-500 font-outfit">{review.handle}</p>
+                  </div>
+                  <div className="shrink-0 px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold uppercase tracking-wider text-gray-400 font-outfit">
+                    {review.tag}
+                  </div>
+                </div>
+
+                {/* Stars */}
+                <div className="flex gap-0.5 mb-2">
+                  {Array.from({ length: 5 }).map((_, s) => (
+                    <Star
+                      key={s}
+                      size={13}
+                      className={s < review.rating ? "text-[#CCFF00] fill-[#CCFF00]" : "text-white/10"}
+                    />
+                  ))}
+                </div>
+
+                {/* Review text */}
+                <p className="text-gray-300 font-outfit text-sm leading-relaxed line-clamp-3">
+                  "{review.text}"
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -711,39 +899,132 @@ function DownloadSection() {
 /* ───────── PAGE ───────── */
 
 export default function Home() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
-  useEffect(() => {
-    const updateMouse = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-    window.addEventListener("mousemove", updateMouse);
-    return () => window.removeEventListener("mousemove", updateMouse);
-  }, []);
-
   return (
     <>
       <div className="grain-overlay" />
       <TouchRipple />
       
-      {/* Custom Cursor Follower (Desktop Only) */}
-      <motion.div 
-        className="fixed w-8 h-8 rounded-full border border-primary pointer-events-none z-[9999] hidden md:block mix-blend-difference"
-        animate={{ x: mousePosition.x - 16, y: mousePosition.y - 16 }}
-        transition={{ type: "spring", damping: 20, stiffness: 300, mass: 0.1 }}
-      />
-      
       <Navbar />
+
+      {/* Sticky Social Bar — Left side, liquid glass */}
+      <div className="fixed right-4 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-3 p-3 rounded-2xl bg-white/[0.04] backdrop-blur-xl border border-white/[0.08] shadow-[0_8px_32px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.06)]">
+        {[
+          { icon: Instagram, label: "Instagram", href: "#", color: "text-pink-500", glow: "shadow-[0_0_18px_rgba(236,72,153,0.3)]" },
+          { icon: Twitter, label: "Twitter", href: "#", color: "text-sky-400", glow: "shadow-[0_0_18px_rgba(56,189,248,0.3)]" },
+          { icon: Linkedin, label: "LinkedIn", href: "#", color: "text-blue-500", glow: "shadow-[0_0_18px_rgba(59,130,246,0.3)]" },
+          { icon: Facebook, label: "Facebook", href: "#", color: "text-blue-600", glow: "shadow-[0_0_18px_rgba(37,99,235,0.3)]" },
+        ].map((s) => (
+          <a
+            key={s.label}
+            href={s.href}
+            className={cn("w-12 h-12 rounded-xl bg-white/[0.03] flex items-center justify-center hover:bg-white/10 transition-all duration-300 hover:scale-110", s.color, s.glow)}
+          >
+            <s.icon size={20} />
+          </a>
+        ))}
+      </div>
+
       <Hero />
       <Marquee />
       <FeatureSection />
       <StorySection />
-      <TeamSection />
       <MissionSection />
+      <TeamSection />
       <DownloadSection />
+      <ReviewsSection />
 
-      <footer className="py-12 border-t border-white/5 bg-black text-center text-gray-500 font-syne text-sm uppercase tracking-widest px-6">
-        <p>© {new Date().getFullYear()} DietTailor Inc. Stay Freaky.</p>
+      <footer className="bg-surface border-t border-white/5">
+        {/* Main Footer */}
+        <div className="max-w-7xl mx-auto px-6 pt-16 pb-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
+            
+            {/* Brand Column */}
+            <div className="sm:col-span-2 lg:col-span-1">
+              <h3 className="text-2xl font-syne font-black uppercase tracking-tight text-white mb-4">
+                Die<span className="text-primary">Tailor</span>
+              </h3>
+              <p className="text-gray-400 font-outfit text-sm leading-relaxed mb-6 max-w-xs">
+                Custom nutrition, zero compromise. Eat smarter, feel better, look freaky good.
+              </p>
+              <div className="flex items-center gap-3">
+                {[
+                  { icon: Instagram, href: "#" },
+                  { icon: Twitter, href: "#" },
+                  { icon: Linkedin, href: "#" },
+                ].map((social, i) => (
+                  <a
+                    key={i}
+                    href={social.href}
+                    className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300"
+                  >
+                    <social.icon size={16} />
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {/* Quick Links */}
+            <div>
+              <h4 className="text-sm font-syne font-bold uppercase tracking-widest text-white mb-5">Quick Links</h4>
+              <ul className="space-y-3">
+                {["Home", "Services", "Our Story", "The Squad", "Mission"].map((link) => (
+                  <li key={link}>
+                    <a href={`#${link.toLowerCase().replace(/\s+/g, "")}`} className="text-gray-400 hover:text-white text-sm font-outfit transition-colors duration-300">
+                      {link}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Services */}
+            <div>
+              <h4 className="text-sm font-syne font-bold uppercase tracking-widest text-white mb-5">Services</h4>
+              <ul className="space-y-3">
+                {["Custom Bowls", "Chef's Specials", "Meal Subscriptions", "Expert Chat", "Macro Tracking"].map((item) => (
+                  <li key={item}>
+                    <span className="text-gray-400 text-sm font-outfit">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Contact */}
+            <div>
+              <h4 className="text-sm font-syne font-bold uppercase tracking-widest text-white mb-5">Contact</h4>
+              <ul className="space-y-4">
+                <li className="flex items-start gap-3">
+                  <Mail size={16} className="text-primary mt-0.5 shrink-0" />
+                  <span className="text-gray-400 text-sm font-outfit">hello@dietailor.com</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Phone size={16} className="text-primary mt-0.5 shrink-0" />
+                  <span className="text-gray-400 text-sm font-outfit">+91 98765 43210</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <MapPin size={16} className="text-primary mt-0.5 shrink-0" />
+                  <span className="text-gray-400 text-sm font-outfit">Mangalore, Karnataka, India</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Bar */}
+        <div className="border-t border-white/5">
+          <div className="max-w-7xl mx-auto px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p className="text-gray-500 text-xs font-outfit tracking-wide">
+              © {new Date().getFullYear()} DieTailor Inc. All rights reserved.
+            </p>
+            <div className="flex items-center gap-6">
+              {["Privacy Policy", "Terms of Service"].map((item) => (
+                <a key={item} href="#" className="text-gray-500 hover:text-white text-xs font-outfit transition-colors duration-300">
+                  {item}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
       </footer>
     </>
   );

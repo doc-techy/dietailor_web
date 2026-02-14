@@ -15,9 +15,9 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "DietTailor — Personalized Nutrition, Delivered",
+  title: "DieTailor — Personalized Nutrition, Delivered",
   description:
-    "Build custom meal bowls, subscribe to healthy meal plans, and consult certified dietitians. DietTailor helps you eat right, every day.",
+    "Build custom meal bowls, subscribe to healthy meal plans, and consult certified dietitians. DieTailor helps you eat right, every day.",
   keywords: [
     "diet",
     "meal plan",

@@ -12,7 +12,7 @@
   --surface-highlight: #1E1E1E;
   
   /* Gradients */
-  --gradient-crazy: linear-gradient(135deg, #CCFF00 0%, #00FFFF 50%, #FF00FF 100%);
+  --gradient-crazy: linear-gradient(135deg, #34D399 0%, #6EE7B7 50%, #10B981 100%);
 }
 
 @theme inline {
@@ -53,6 +53,10 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--primary);
 }
 
+.bg-gradient-crazy {
+  background-image: var(--gradient-crazy);
+}
+
 .glass-morphism {
   background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(20px);
@@ -90,6 +94,26 @@ h1, h2, h3, h4, h5, h6 {
   animation-delay: 4s;
 }
 
+/* ─── MARQUEE INFINITE ─── */
+
+@keyframes marquee-infinite {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee-infinite {
+  animation: marquee-infinite 20s linear infinite;
+}
+
+@keyframes reviews-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-reviews-scroll {
+  animation: reviews-scroll 30s linear infinite;
+}
+
 /* ─── GRAIN OVERLAY ─── */
 
 .grain-overlay {
@@ -107,16 +131,21 @@ h1, h2, h3, h4, h5, h6 {
 /* ─── GLITCH EFFECT (MOBILE) ─── */
 
 @keyframes glitch-skew {
-  0% { transform: skew(0deg); }
-  20% { transform: skew(-2deg); }
-  40% { transform: skew(2deg); }
-  60% { transform: skew(-1deg); }
-  80% { transform: skew(1deg); }
-  100% { transform: skew(0deg); }
+  0% { transform: skew(0deg) translateX(0); }
+  10% { transform: skew(-2deg) translateX(-2px); }
+  20% { transform: skew(2deg) translateX(2px); }
+  30% { transform: skew(-1deg) translateX(1px); }
+  40% { transform: skew(1.5deg) translateX(-1px); }
+  50% { transform: skew(0deg) translateX(0); }
+  60% { transform: skew(-1deg) translateX(2px); }
+  70% { transform: skew(2deg) translateX(-2px); }
+  80% { transform: skew(-2deg) translateX(1px); }
+  90% { transform: skew(1deg) translateX(-1px); }
+  100% { transform: skew(0deg) translateX(0); }
 }
 
-.hover-glitch:active {
-  animation: glitch-skew 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+.hover-glitch {
+  animation: glitch-skew 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
   color: var(--primary);
   text-shadow: 2px 0 var(--secondary), -2px 0 var(--accent);
 }
