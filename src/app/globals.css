@@ -114,6 +114,26 @@ h1, h2, h3, h4, h5, h6 {
   animation: reviews-scroll 30s linear infinite;
 }
 
+@keyframes scan-line {
+  0% { top: 0%; }
+  50% { top: 100%; }
+  100% { top: 0%; }
+}
+
+.animate-scan-line {
+  animation: scan-line 2.5s ease-in-out infinite;
+}
+
+@keyframes gradient-border {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-gradient-border {
+  animation: gradient-border 4s ease infinite;
+}
+
 /* ─── GRAIN OVERLAY ─── */
 
 .grain-overlay {

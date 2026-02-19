@@ -43,6 +43,8 @@ function cn(...inputs: ClassValue[]) {
 
 /* ───────── UI COMPONENTS ───────── */
 
+/* Removed old PhoneMockup & AppWidget components */
+
 const TouchRipple = () => {
   const [ripples, setRipples] = useState<{ x: number; y: number; id: number }[]>([]);
 
@@ -83,25 +85,20 @@ const TouchRipple = () => {
 
 const PhoneMockup = ({ children, className }: { children: React.ReactNode, className?: string }) => (
   <div className={cn("relative mx-auto border-gray-800 bg-gray-900 border-[14px] rounded-[2.5rem] h-[600px] w-[300px] shadow-2xl flex flex-col overflow-hidden", className)}>
-    <div className="h-[32px] w-[3px] bg-gray-800 absolute -start-[17px] top-[72px] rounded-s-lg"></div>
-    <div className="h-[46px] w-[3px] bg-gray-800 absolute -start-[17px] top-[124px] rounded-s-lg"></div>
-    <div className="h-[46px] w-[3px] bg-gray-800 absolute -start-[17px] top-[178px] rounded-s-lg"></div>
-    <div className="h-[64px] w-[3px] bg-gray-800 absolute -end-[17px] top-[142px] rounded-e-lg"></div>
+    <div className="h-[32px] w-[3px] bg-gray-800 absolute -start-[17px] top-[72px] rounded-s-lg" />
+    <div className="h-[46px] w-[3px] bg-gray-800 absolute -start-[17px] top-[124px] rounded-s-lg" />
+    <div className="h-[46px] w-[3px] bg-gray-800 absolute -start-[17px] top-[178px] rounded-s-lg" />
+    <div className="h-[64px] w-[3px] bg-gray-800 absolute -end-[17px] top-[142px] rounded-e-lg" />
     <div className="rounded-[2rem] overflow-hidden w-[272px] h-[572px] bg-black text-white relative">
-      {/* Notch */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-black rounded-b-xl z-20"></div>
-      {/* Content */}
-      <div className="h-full w-full overflow-y-auto no-scrollbar pt-8 pb-4 px-4">
-        {children}
-      </div>
-      {/* Home Indicator */}
-      <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-24 h-1 bg-white/20 rounded-full"></div>
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-black rounded-b-xl z-20" />
+      <div className="h-full w-full overflow-y-auto no-scrollbar pt-8 pb-4 px-4">{children}</div>
+      <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-24 h-1 bg-white/20 rounded-full" />
     </div>
   </div>
 );
 
 const AppWidget = ({ title, value, icon: Icon, color = "bg-primary", delay = 0 }: any) => (
-  <motion.div 
+  <motion.div
     initial={{ x: -20, opacity: 0 }}
     animate={{ x: 0, opacity: 1 }}
     transition={{ delay, type: "spring" }}
@@ -281,10 +278,10 @@ function Hero() {
           transition={{ duration: 0.8 }}
           className="text-center lg:text-left pt-20 lg:pt-0"
         >
-          <h1 className="text-[15vw] lg:text-9xl font-syne font-bold leading-[0.8] mb-6 tracking-tighter hover-glitch select-none">
+          <h1 className="text-[15vw] lg:text-9xl font-syne font-bold leading-[0.8] mb-6 tracking-tighter select-none">
             EAT.<br />
             <span className="text-stroke text-white/10">TRACK.</span><br />
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-accent to-secondary">
+            <span className="hover-glitch inline-block bg-clip-text text-transparent bg-gradient-to-r from-primary via-accent to-secondary">
               REPEAT.
             </span>
           </h1>
@@ -303,32 +300,66 @@ function Hero() {
           </div>
         </motion.div>
 
-        {/* MOBILE HERO VISUAL: Exploded App UI */}
-        <div className="lg:hidden relative h-[400px] w-full mt-10 perspective-[1000px]">
-           <motion.div 
-             animate={{ rotateX: [10, 0, 10], rotateZ: [-5, 5, -5] }}
-             transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-             className="relative z-10 mx-auto w-full max-w-xs"
-           >
-              {/* Daily Stats Card */}
-              <div className="bg-primary text-black p-6 rounded-[2rem] mb-4 relative overflow-hidden shadow-[0_0_30px_rgba(204,255,0,0.3)] transform -rotate-3">
-                 <div className="absolute -right-4 -top-4 w-24 h-24 bg-white/20 rounded-full blur-xl" />
-                 <div className="flex justify-between items-end mb-2">
-                   <span className="font-bold opacity-60 text-xs uppercase">Calories</span>
-                   <span className="font-black text-5xl">1,840</span>
-                 </div>
-                 <div className="w-full bg-black/10 h-3 rounded-full overflow-hidden">
-                   <div className="bg-black w-[75%] h-full rounded-full" />
-                 </div>
+        {/* MOBILE HERO VISUAL: Floating Phone */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="lg:hidden relative flex justify-center mt-10"
+        >
+          <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-secondary/20 opacity-30 blur-[80px] rounded-full pointer-events-none" />
+          <motion.div
+            animate={{ y: [0, -12, 0], rotate: [-3, -1, -3] }}
+            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <PhoneMockup className="scale-[0.8]">
+              <div className="flex justify-between items-center mb-6">
+                <div>
+                  <h2 className="text-2xl font-bold font-syne">Dashboard</h2>
+                  <p className="text-xs text-gray-400">Let&apos;s hit those macros.</p>
+                </div>
+                <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center">
+                  <User size={18} />
+                </div>
               </div>
-              
-              {/* Stacked Widgets */}
-              <div className="space-y-2 transform rotate-2">
-                <AppWidget title="Protein" value="145g / 180g" icon={Flame} color="bg-[#FF00FF]" delay={0.2} />
-                <AppWidget title="Carbs" value="210g / 250g" icon={Zap} color="bg-[#00FFFF]" delay={0.4} />
+
+              <div className="bg-primary text-black p-5 rounded-[2rem] mb-6 relative overflow-hidden">
+                <div className="absolute -right-4 -top-4 w-24 h-24 bg-white/20 rounded-full blur-xl" />
+                <div className="relative z-10">
+                  <div className="flex justify-between items-end mb-2">
+                    <span className="font-bold opacity-60 text-xs uppercase">Calories</span>
+                    <span className="font-black text-4xl">1,840</span>
+                  </div>
+                  <div className="w-full bg-black/10 h-2 rounded-full overflow-hidden">
+                    <div className="bg-black w-[75%] h-full rounded-full" />
+                  </div>
+                  <div className="flex justify-between text-xs font-bold mt-2 opacity-60">
+                    <span>Target: 2,400</span>
+                    <span>75%</span>
+                  </div>
+                </div>
               </div>
-           </motion.div>
-        </div>
+
+              <h3 className="font-bold mb-3 text-sm uppercase tracking-wider text-gray-400">Today&apos;s Macros</h3>
+              <AppWidget title="Protein" value="145g / 180g" icon={Flame} color="bg-[#FF00FF]" />
+              <AppWidget title="Carbs" value="210g / 250g" icon={Zap} color="bg-[#00FFFF]" />
+              <AppWidget title="Fats" value="55g / 70g" icon={Heart} color="bg-[#CCFF00]" />
+
+              <div className="mt-4 bg-surface-highlight rounded-2xl p-4 border border-white/5">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="bg-green-500/20 p-2 rounded-lg text-green-500"><Sparkles size={16} /></div>
+                  <span className="font-bold text-sm">AI Suggestion</span>
+                </div>
+                <p className="text-xs text-gray-400 leading-relaxed">
+                  You&apos;re low on protein. Try our <span className="text-white font-bold">Grilled Chicken Bowl</span> for dinner!
+                </p>
+                <button className="w-full bg-white/10 hover:bg-white/20 text-xs font-bold py-2 rounded-lg mt-3 transition-colors">
+                  Order Now
+                </button>
+              </div>
+            </PhoneMockup>
+          </motion.div>
+        </motion.div>
 
         {/* DESKTOP HERO VISUAL: Floating Phone */}
         <motion.div 
@@ -460,7 +491,7 @@ function FeatureSection() {
             animate={{ opacity: 1, y: 0 }}
             className="text-4xl md:text-6xl font-syne font-bold uppercase text-white"
          >
-            Services That <span className="text-transparent bg-clip-text" style={{ backgroundImage: "linear-gradient(135deg, #CCFF00 0%, #00FFFF 50%, #FF00FF 100%)" }}>Slap.</span>
+            Services That <span className="text-primary">Slap.</span>
          </motion.h2>
       </div>
 
@@ -568,48 +599,65 @@ function FeatureSection() {
 function StorySection() {
   return (
     <section id="story" className="py-20 md:py-32 relative overflow-hidden bg-black">
-      <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
-        <motion.div
-           initial={{ opacity: 0, rotate: -5 }}
-           whileInView={{ opacity: 1, rotate: -3 }}
-           transition={{ duration: 0.8 }}
-           className="relative max-w-[440px] mx-auto"
-        >
-          {/* Polaroid Frame */}
-          <div className="bg-white p-4 pb-14 rounded shadow-2xl transform hover:scale-105 transition-transform duration-500">
-             <div className="relative aspect-auto bg-gray-200 overflow-hidden hover:grayscale-0 transition-all duration-500">
-                <Image src="/images/first_bowl.jpeg" alt="The First Bowl" width={440} height={440} className="w-full h-auto" />
-                <div className="absolute inset-0 bg-noise opacity-20 pointer-events-none" />
-             </div>
-             <div className="absolute bottom-4 left-0 right-0 text-center font-marker text-2xl text-black font-bold font-syne rotate-[-2deg]">
-               The First Bowl (2024)
-             </div>
-          </div>
-          {/* Tape Effect */}
-          <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-32 h-8 bg-white/50 rotate-3 backdrop-blur-sm" />
-        </motion.div>
-
-        <div className="relative z-10">
+      <div className="max-w-7xl mx-auto px-6">
+        {/* Title — visible on mobile above image */}
+        <div className="md:hidden mb-10">
           <div className="inline-flex items-center gap-2 text-accent text-sm font-bold uppercase tracking-widest mb-4">
-             <Clock className="w-4 h-4" />
-             <span className="text-stroke">Origin Story</span>
+            <Clock className="w-4 h-4" />
+            <span className="text-stroke">Origin Story</span>
           </div>
-          <h2 className="text-5xl md:text-7xl font-syne font-bold uppercase mb-6 leading-none">
+          <h2 className="text-5xl font-syne font-bold uppercase leading-none">
             It Started in a <br />
             <span className="text-secondary">Dorm Room.</span>
           </h2>
-          <div className="space-y-6 text-lg text-gray-400 font-outfit leading-relaxed">
-             <p>
-               No fancy kitchen. No venture capital. Just me, a blender, and a mission to stop eating instant noodles every night.
-             </p>
-             <p>
-               I hacked together a spreadsheet to calculate macros, bought ingredients in bulk, and made this exact bowl you see here. It wasn't pretty, but it hit the macros perfectly.
-             </p>
-             <div className="pl-4 border-l-2 border-primary">
-               <p className="text-primary font-bold italic">
-                 "If I can automate my code, why can't I automate my nutrition?"
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-16 items-center">
+          <motion.div
+             initial={{ opacity: 0, rotate: -5 }}
+             whileInView={{ opacity: 1, rotate: -3 }}
+             transition={{ duration: 0.8 }}
+             className="relative max-w-[440px] mx-auto"
+          >
+            {/* Polaroid Frame */}
+            <div className="bg-white p-4 pb-14 rounded shadow-2xl transform hover:scale-105 transition-transform duration-500">
+               <div className="relative aspect-auto bg-gray-200 overflow-hidden hover:grayscale-0 transition-all duration-500">
+                  <Image src="/images/first_bowl.jpeg" alt="The First Bowl" width={440} height={440} className="w-full h-auto" />
+                  <div className="absolute inset-0 bg-noise opacity-20 pointer-events-none" />
+               </div>
+               <div className="absolute bottom-4 left-0 right-0 text-center font-marker text-2xl text-black font-bold font-syne rotate-[-2deg]">
+                 The First Bowl (2024)
+               </div>
+            </div>
+            {/* Tape Effect */}
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-32 h-8 bg-white/50 rotate-3 backdrop-blur-sm" />
+          </motion.div>
+
+          <div className="relative z-10">
+            {/* Title — desktop only (hidden on mobile since it's shown above) */}
+            <div className="hidden md:block">
+              <div className="inline-flex items-center gap-2 text-accent text-sm font-bold uppercase tracking-widest mb-4">
+                 <Clock className="w-4 h-4" />
+                 <span className="text-stroke">Origin Story</span>
+              </div>
+              <h2 className="text-7xl font-syne font-bold uppercase mb-6 leading-none">
+                It Started in a <br />
+                <span className="text-secondary">Dorm Room.</span>
+              </h2>
+            </div>
+            <div className="space-y-6 text-lg text-gray-400 font-outfit leading-relaxed">
+               <p>
+                 No fancy kitchen. No venture capital. Just me, a blender, and a mission to stop eating instant noodles every night.
                </p>
-             </div>
+               <p>
+                 I hacked together a spreadsheet to calculate macros, bought ingredients in bulk, and made this exact bowl you see here. It wasn't pretty, but it hit the macros perfectly.
+               </p>
+               <div className="pl-4 border-l-2 border-primary">
+                 <p className="text-primary font-bold italic">
+                   "If I can automate my code, why can't I automate my nutrition?"
+                 </p>
+               </div>
+            </div>
           </div>
         </div>
       </div>
@@ -719,37 +767,285 @@ function Marquee() {
 
 function DownloadSection() {
   return (
-    <section id="download" className="py-20 md:py-32 relative overflow-hidden bg-black">
-      <motion.div
-        initial={{ scale: 0.9, opacity: 0 }}
-        whileInView={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.5 }}
-        className="relative z-10 text-center w-full px-6"
-      >
-            <h2 className="text-[8.5vw] md:text-8xl font-syne font-bold mb-8 uppercase leading-none whitespace-nowrap">
-              Ready to <span className="text-transparent bg-clip-text" style={{ backgroundImage: "linear-gradient(135deg, #CCFF00 0%, #00FFFF 50%, #FF00FF 100%)" }}>Level Up?</span>
-            </h2>
-            <p className="text-lg md:text-xl text-gray-400 mb-12 max-w-2xl mx-auto font-outfit">
-              Join 50,000+ users transforming their bodies with DieTailor.
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center">
-              <motion.button 
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-primary text-black px-8 py-5 rounded-2xl font-black text-xl flex items-center justify-center gap-3 shadow-[0_0_20px_rgba(204,255,0,0.4)] active:scale-95 transition-transform"
+    <section id="download" className="py-20 md:py-36 relative overflow-hidden bg-black">
+      {/* Ambient background */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/[0.05] rounded-full blur-[200px]" />
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent/[0.03] rounded-full blur-[150px]" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-secondary/[0.03] rounded-full blur-[120px]" />
+      </div>
+
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6">
+
+        {/* Main CTA */}
+        <div className="relative">
+          {/* Outer glow */}
+          <div className="absolute -inset-px rounded-3xl md:rounded-[2.5rem] bg-gradient-to-r from-primary/30 via-accent/20 to-secondary/30 blur-sm" />
+
+          <div className="relative bg-[#0A0A0A] rounded-3xl md:rounded-[2.5rem] border border-white/[0.08] overflow-hidden">
+            {/* Inner ambient glows */}
+            <div className="absolute top-0 left-1/4 w-[400px] h-[300px] bg-primary/[0.08] blur-[120px] rounded-full pointer-events-none" />
+            <div className="absolute bottom-0 right-1/4 w-[300px] h-[200px] bg-accent/[0.06] blur-[100px] rounded-full pointer-events-none" />
+
+            {/* Mobile Layout */}
+            <div className="relative z-10 md:hidden">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7 }}
+                viewport={{ once: true }}
+                className="flex flex-col items-center text-center px-6 pt-10 pb-8"
               >
-                <span className="text-2xl"></span> App Store
-              </motion.button>
-              <motion.button 
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-white text-black px-8 py-5 rounded-2xl font-black text-xl flex items-center justify-center gap-3 active:scale-95 transition-transform"
-              >
-                <span className="text-2xl">▶</span> Play Store
-              </motion.button>
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/20 bg-primary/5 text-primary text-xs font-bold uppercase tracking-widest font-outfit mb-5">
+                  <Smartphone size={12} /> Available Now
+                </div>
+
+                <h2 className="text-4xl sm:text-5xl font-syne font-black uppercase leading-[0.9] tracking-tighter mb-4">
+                  Ready to{" "}
+                  <span className="text-primary">Level Up?</span>
+                </h2>
+
+                <p className="text-gray-400 font-outfit text-sm leading-relaxed mb-4 max-w-sm">
+                  Join 50,000+ people who&apos;ve already transformed their nutrition. Custom bowls, smart tracking, and expert guidance — all in one app.
+                </p>
+
+                {/* Phone Mockup — mobile */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.15 }}
+                  viewport={{ once: true }}
+                  className="relative mb-4 -my-[75px] sm:-my-[60px]"
+                >
+                  <div className="absolute -inset-8 bg-gradient-to-tr from-primary/15 via-transparent to-accent/15 rounded-full blur-[50px] pointer-events-none" />
+                  <PhoneMockup className="scale-75 sm:scale-[0.8]">
+                    <div className="flex flex-col items-center justify-center h-full -mt-4">
+                      <div className="flex items-center gap-3 mb-8">
+                        <div className="w-11 h-11 bg-primary rounded-xl flex items-center justify-center text-black font-bold text-lg font-syne">D</div>
+                        <span className="font-syne font-bold text-xl text-white">Die<span className="text-primary">Tailor</span></span>
+                      </div>
+                      <div className="relative">
+                        <div className="relative bg-white p-5 rounded-2xl w-[220px] h-[220px] shadow-[0_0_40px_rgba(204,255,0,0.08)]">
+                          <svg viewBox="0 0 200 200" className="w-full h-full">
+                            <rect x="10" y="10" width="60" height="60" fill="black" rx="4" />
+                            <rect x="18" y="18" width="44" height="44" fill="white" rx="2" />
+                            <rect x="26" y="26" width="28" height="28" fill="black" rx="2" />
+                            <rect x="130" y="10" width="60" height="60" fill="black" rx="4" />
+                            <rect x="138" y="18" width="44" height="44" fill="white" rx="2" />
+                            <rect x="146" y="26" width="28" height="28" fill="black" rx="2" />
+                            <rect x="10" y="130" width="60" height="60" fill="black" rx="4" />
+                            <rect x="18" y="138" width="44" height="44" fill="white" rx="2" />
+                            <rect x="26" y="146" width="28" height="28" fill="black" rx="2" />
+                            <rect x="80" y="10" width="12" height="12" fill="black" />
+                            <rect x="100" y="10" width="12" height="12" fill="black" />
+                            <rect x="80" y="30" width="12" height="12" fill="black" />
+                            <rect x="100" y="40" width="12" height="12" fill="black" />
+                            <rect x="80" y="56" width="12" height="12" fill="black" />
+                            <rect x="10" y="80" width="12" height="12" fill="black" />
+                            <rect x="30" y="80" width="12" height="12" fill="black" />
+                            <rect x="56" y="80" width="12" height="12" fill="black" />
+                            <rect x="80" y="80" width="12" height="12" fill="black" />
+                            <rect x="100" y="80" width="12" height="12" fill="black" />
+                            <rect x="130" y="80" width="12" height="12" fill="black" />
+                            <rect x="160" y="80" width="12" height="12" fill="black" />
+                            <rect x="178" y="80" width="12" height="12" fill="black" />
+                            <rect x="80" y="130" width="12" height="12" fill="black" />
+                            <rect x="100" y="130" width="12" height="12" fill="black" />
+                            <rect x="130" y="130" width="12" height="12" fill="black" />
+                            <rect x="160" y="130" width="12" height="12" fill="black" />
+                            <rect x="80" y="150" width="12" height="12" fill="black" />
+                            <rect x="110" y="150" width="12" height="12" fill="black" />
+                            <rect x="140" y="150" width="12" height="12" fill="black" />
+                            <rect x="178" y="150" width="12" height="12" fill="black" />
+                            <rect x="80" y="178" width="12" height="12" fill="black" />
+                            <rect x="130" y="178" width="12" height="12" fill="black" />
+                            <rect x="160" y="178" width="12" height="12" fill="black" />
+                          </svg>
+                          <div className="absolute inset-0 overflow-hidden rounded-2xl pointer-events-none">
+                            <div className="absolute left-0 right-0 h-0.5 bg-primary/60 shadow-[0_0_8px_rgba(204,255,0,0.5)] animate-scan-line" />
+                          </div>
+                        </div>
+                      </div>
+                      <p className="text-gray-400 text-xs font-outfit mt-5 tracking-wider uppercase">Scan to Download</p>
+                      <div className="flex items-center gap-3 mt-5">
+                        <div className="px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold font-outfit uppercase tracking-wider">iOS</div>
+                        <div className="px-4 py-1.5 rounded-full bg-accent/10 border border-accent/20 text-accent text-xs font-bold font-outfit uppercase tracking-wider">Android</div>
+                      </div>
+                    </div>
+                  </PhoneMockup>
+                </motion.div>
+
+                {/* Store Buttons — mobile */}
+                <div className="flex flex-row gap-3 w-full max-w-sm px-2">
+                  <motion.a
+                    href="#"
+                    whileTap={{ scale: 0.97 }}
+                    className="flex-1 flex items-center gap-3 bg-white text-black py-3 px-4 rounded-2xl"
+                  >
+                    <svg viewBox="0 0 24 24" className="w-6 h-6 shrink-0" fill="currentColor">
+                      <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+                    </svg>
+                    <div className="text-left min-w-0">
+                      <span className="text-[9px] block leading-none opacity-50 font-semibold uppercase tracking-wider font-outfit">Download on the</span>
+                      <span className="text-sm font-black font-syne leading-tight">App Store</span>
+                    </div>
+                  </motion.a>
+
+                  <motion.a
+                    href="#"
+                    whileTap={{ scale: 0.97 }}
+                    className="flex-1 flex items-center gap-3 bg-white text-black py-3 px-4 rounded-2xl"
+                  >
+                    <svg viewBox="0 0 24 24" className="w-6 h-6 shrink-0" fill="currentColor">
+                      <path d="M3.18 23.73c.44.21.96.18 1.37-.07l0 0L22.4 12.87c.46-.27.74-.76.74-1.3s-.28-1.03-.74-1.3L4.55.32C4.14.07 3.62.04 3.18.26 2.74.47 2.47.93 2.47 1.43V22.14c0 .5.27.96.71 1.18z" />
+                    </svg>
+                    <div className="text-left min-w-0">
+                      <span className="text-[9px] block leading-none opacity-50 font-semibold uppercase tracking-wider font-outfit">Get it on</span>
+                      <span className="text-sm font-black font-syne leading-tight">Google Play</span>
+                    </div>
+                  </motion.a>
+                </div>
+              </motion.div>
             </div>
-      </motion.div>
+
+            {/* Desktop Layout */}
+            <div className="relative z-10 hidden md:grid md:grid-cols-2">
+
+              {/* Left: Content */}
+              <div className="p-12 lg:p-16 flex flex-col justify-center overflow-hidden">
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7 }}
+                  viewport={{ once: true }}
+                >
+                  <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/20 bg-primary/5 text-primary text-xs font-bold uppercase tracking-widest font-outfit mb-6">
+                    <Smartphone size={12} /> Available Now
+                  </div>
+
+                  <h2 className="text-4xl lg:text-5xl font-syne font-black uppercase leading-[0.9] tracking-tighter mb-5">
+                    Ready to{" "}
+                    <span className="text-primary">Level Up?</span>
+                  </h2>
+
+                  <p className="text-gray-400 font-outfit text-base leading-relaxed mb-8 max-w-md">
+                    Join 50,000+ people who&apos;ve already transformed their nutrition. Custom bowls, smart tracking, and expert guidance — all in one app.
+                  </p>
+
+                  {/* Store Buttons — desktop */}
+                  <div className="flex flex-row gap-3">
+                    <motion.a
+                      href="#"
+                      whileHover={{ scale: 1.03, y: -2 }}
+                      whileTap={{ scale: 0.97 }}
+                      className="group relative flex items-center gap-3 bg-white text-black py-3 px-5 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-[0_12px_40px_rgba(204,255,0,0.2)]"
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-r from-primary/0 to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <div className="relative z-10 flex items-center gap-3">
+                        <svg viewBox="0 0 24 24" className="w-6 h-6 shrink-0" fill="currentColor">
+                          <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+                        </svg>
+                        <div className="text-left">
+                          <span className="text-[10px] block leading-none opacity-50 font-semibold uppercase tracking-wider font-outfit">Download on the</span>
+                          <span className="text-sm font-black font-syne leading-tight">App Store</span>
+                        </div>
+                      </div>
+                    </motion.a>
+
+                    <motion.a
+                      href="#"
+                      whileHover={{ scale: 1.03, y: -2 }}
+                      whileTap={{ scale: 0.97 }}
+                      className="group relative flex items-center gap-3 bg-white text-black py-3 px-5 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-[0_12px_40px_rgba(204,255,0,0.2)]"
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-r from-primary/0 to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <div className="relative z-10 flex items-center gap-3">
+                        <svg viewBox="0 0 24 24" className="w-6 h-6 shrink-0" fill="currentColor">
+                          <path d="M3.18 23.73c.44.21.96.18 1.37-.07l0 0L22.4 12.87c.46-.27.74-.76.74-1.3s-.28-1.03-.74-1.3L4.55.32C4.14.07 3.62.04 3.18.26 2.74.47 2.47.93 2.47 1.43V22.14c0 .5.27.96.71 1.18z" />
+                        </svg>
+                        <div className="text-left">
+                          <span className="text-[10px] block leading-none opacity-50 font-semibold uppercase tracking-wider font-outfit">Get it on</span>
+                          <span className="text-sm font-black font-syne leading-tight">Google Play</span>
+                        </div>
+                      </div>
+                    </motion.a>
+                  </div>
+                </motion.div>
+              </div>
+
+              {/* Right: Phone Mockup — desktop */}
+              <div className="relative flex items-center justify-center p-10">
+                <motion.div
+                  initial={{ opacity: 0, y: 40, rotate: 6 }}
+                  whileInView={{ opacity: 1, y: 0, rotate: 3 }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
+                  viewport={{ once: true }}
+                  className="relative"
+                >
+                  <div className="absolute -inset-10 bg-gradient-to-tr from-primary/20 via-transparent to-accent/20 rounded-full blur-[60px] pointer-events-none" />
+                  <PhoneMockup className="scale-90 lg:scale-100">
+                    <div className="flex flex-col items-center justify-center h-full -mt-4">
+                      <div className="flex items-center gap-3 mb-8">
+                        <div className="w-11 h-11 bg-primary rounded-xl flex items-center justify-center text-black font-bold text-lg font-syne">D</div>
+                        <span className="font-syne font-bold text-xl text-white">Die<span className="text-primary">Tailor</span></span>
+                      </div>
+                      <div className="relative group">
+                        <div className="absolute -inset-5 bg-primary/10 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        <div className="relative bg-white p-5 rounded-2xl w-[220px] h-[220px] shadow-[0_0_40px_rgba(204,255,0,0.08)]">
+                          <svg viewBox="0 0 200 200" className="w-full h-full">
+                            <rect x="10" y="10" width="60" height="60" fill="black" rx="4" />
+                            <rect x="18" y="18" width="44" height="44" fill="white" rx="2" />
+                            <rect x="26" y="26" width="28" height="28" fill="black" rx="2" />
+                            <rect x="130" y="10" width="60" height="60" fill="black" rx="4" />
+                            <rect x="138" y="18" width="44" height="44" fill="white" rx="2" />
+                            <rect x="146" y="26" width="28" height="28" fill="black" rx="2" />
+                            <rect x="10" y="130" width="60" height="60" fill="black" rx="4" />
+                            <rect x="18" y="138" width="44" height="44" fill="white" rx="2" />
+                            <rect x="26" y="146" width="28" height="28" fill="black" rx="2" />
+                            <rect x="80" y="10" width="12" height="12" fill="black" />
+                            <rect x="100" y="10" width="12" height="12" fill="black" />
+                            <rect x="80" y="30" width="12" height="12" fill="black" />
+                            <rect x="100" y="40" width="12" height="12" fill="black" />
+                            <rect x="80" y="56" width="12" height="12" fill="black" />
+                            <rect x="10" y="80" width="12" height="12" fill="black" />
+                            <rect x="30" y="80" width="12" height="12" fill="black" />
+                            <rect x="56" y="80" width="12" height="12" fill="black" />
+                            <rect x="80" y="80" width="12" height="12" fill="black" />
+                            <rect x="100" y="80" width="12" height="12" fill="black" />
+                            <rect x="130" y="80" width="12" height="12" fill="black" />
+                            <rect x="160" y="80" width="12" height="12" fill="black" />
+                            <rect x="178" y="80" width="12" height="12" fill="black" />
+                            <rect x="80" y="130" width="12" height="12" fill="black" />
+                            <rect x="100" y="130" width="12" height="12" fill="black" />
+                            <rect x="130" y="130" width="12" height="12" fill="black" />
+                            <rect x="160" y="130" width="12" height="12" fill="black" />
+                            <rect x="80" y="150" width="12" height="12" fill="black" />
+                            <rect x="110" y="150" width="12" height="12" fill="black" />
+                            <rect x="140" y="150" width="12" height="12" fill="black" />
+                            <rect x="178" y="150" width="12" height="12" fill="black" />
+                            <rect x="80" y="178" width="12" height="12" fill="black" />
+                            <rect x="130" y="178" width="12" height="12" fill="black" />
+                            <rect x="160" y="178" width="12" height="12" fill="black" />
+                          </svg>
+                          <div className="absolute inset-0 overflow-hidden rounded-2xl pointer-events-none">
+                            <div className="absolute left-0 right-0 h-0.5 bg-primary/60 shadow-[0_0_8px_rgba(204,255,0,0.5)] animate-scan-line" />
+                          </div>
+                        </div>
+                      </div>
+                      <p className="text-gray-400 text-xs font-outfit mt-5 tracking-wider uppercase">Scan to Download</p>
+                      <div className="flex items-center gap-3 mt-6">
+                        <div className="px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold font-outfit uppercase tracking-wider">iOS</div>
+                        <div className="px-4 py-1.5 rounded-full bg-accent/10 border border-accent/20 text-accent text-xs font-bold font-outfit uppercase tracking-wider">Android</div>
+                      </div>
+                    </div>
+                  </PhoneMockup>
+                </motion.div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </section>
   );
 }
@@ -935,11 +1231,85 @@ export default function Home() {
 
       <footer className="bg-surface border-t border-white/5">
         {/* Main Footer */}
-        <div className="max-w-7xl mx-auto px-6 pt-16 pb-10">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
-            
+        <div className="max-w-7xl mx-auto px-6 pt-12 md:pt-16 pb-10">
+
+          {/* Mobile: 2-column grid layout */}
+          <div className="md:hidden">
+            {/* Brand + Socials — full width */}
+            <div className="mb-10">
+              <h3 className="text-2xl font-syne font-black uppercase tracking-tight text-white mb-3">
+                Die<span className="text-primary">Tailor</span>
+              </h3>
+              <p className="text-gray-400 font-outfit text-sm leading-relaxed mb-5 max-w-xs">
+                Custom nutrition, zero compromise. Eat smarter, feel better, look freaky good.
+              </p>
+              <div className="flex items-center gap-3">
+                {[
+                  { icon: Instagram, href: "#" },
+                  { icon: Twitter, href: "#" },
+                  { icon: Linkedin, href: "#" },
+                ].map((social, i) => (
+                  <a
+                    key={i}
+                    href={social.href}
+                    className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300"
+                  >
+                    <social.icon size={16} />
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {/* Links — 2 columns */}
+            <div className="grid grid-cols-2 gap-8 mb-10">
+              <div>
+                <h4 className="text-sm font-syne font-bold uppercase tracking-widest text-white mb-4">Quick Links</h4>
+                <ul className="space-y-3">
+                  {["Home", "Services", "Our Story", "The Squad", "Mission"].map((link) => (
+                    <li key={link}>
+                      <a href={`#${link.toLowerCase().replace(/\s+/g, "")}`} className="text-gray-400 hover:text-white text-sm font-outfit transition-colors duration-300">
+                        {link}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <h4 className="text-sm font-syne font-bold uppercase tracking-widest text-white mb-4">Services</h4>
+                <ul className="space-y-3">
+                  {["Custom Bowls", "Chef's Specials", "Meal Subs", "Expert Chat", "Macro Tracking"].map((item) => (
+                    <li key={item}>
+                      <span className="text-gray-400 text-sm font-outfit">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            {/* Contact — full width */}
+            <div>
+              <h4 className="text-sm font-syne font-bold uppercase tracking-widest text-white mb-4">Contact</h4>
+              <ul className="space-y-3">
+                <li className="flex items-center gap-3">
+                  <Mail size={16} className="text-primary shrink-0" />
+                  <span className="text-gray-400 text-sm font-outfit">hello@dietailor.com</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <Phone size={16} className="text-primary shrink-0" />
+                  <span className="text-gray-400 text-sm font-outfit">+91 98765 43210</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <MapPin size={16} className="text-primary shrink-0" />
+                  <span className="text-gray-400 text-sm font-outfit">Mangalore, Karnataka, India</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Desktop: 4-column layout */}
+          <div className="hidden md:grid md:grid-cols-4 gap-8">
             {/* Brand Column */}
-            <div className="sm:col-span-2 lg:col-span-1">
+            <div>
               <h3 className="text-2xl font-syne font-black uppercase tracking-tight text-white mb-4">
                 Die<span className="text-primary">Tailor</span>
               </h3>
@@ -1012,7 +1382,7 @@ export default function Home() {
 
         {/* Bottom Bar */}
         <div className="border-t border-white/5">
-          <div className="max-w-7xl mx-auto px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="max-w-7xl mx-auto px-6 py-5 md:py-6 flex flex-col sm:flex-row items-center justify-between gap-3">
             <p className="text-gray-500 text-xs font-outfit tracking-wide">
               © {new Date().getFullYear()} DieTailor Inc. All rights reserved.
             </p>
