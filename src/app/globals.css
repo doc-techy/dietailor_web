@@ -33,7 +33,7 @@ body {
   color: var(--foreground);
   font-family: var(--font-outfit), sans-serif;
   overflow-x: hidden;
-  cursor: crosshair;
+  cursor: default;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -84,6 +84,13 @@ h1, h2, h3, h4, h5, h6 {
 
 .animate-blob {
   animation: blob 7s infinite;
+  will-change: transform;
+}
+
+@media (max-width: 768px) {
+  .animate-blob {
+    animation: none;
+  }
 }
 
 .animation-delay-2000 {
@@ -103,6 +110,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .animate-marquee-infinite {
   animation: marquee-infinite 20s linear infinite;
+  will-change: transform;
 }
 
 @keyframes reviews-scroll {
@@ -112,6 +120,27 @@ h1, h2, h3, h4, h5, h6 {
 
 .animate-reviews-scroll {
   animation: reviews-scroll 30s linear infinite;
+  will-change: transform;
+}
+
+@keyframes reviews-scroll-mobile {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes reviews-scroll-mobile-reverse {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+.animate-reviews-scroll-mobile {
+  animation: reviews-scroll-mobile 20s linear infinite;
+  will-change: transform;
+}
+
+.animate-reviews-scroll-mobile-reverse {
+  animation: reviews-scroll-mobile-reverse 20s linear infinite;
+  will-change: transform;
 }
 
 @keyframes scan-line {
@@ -148,6 +177,12 @@ h1, h2, h3, h4, h5, h6 {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
+@media (max-width: 768px) {
+  .grain-overlay {
+    display: none;
+  }
+}
+
 /* ─── GLITCH EFFECT (MOBILE) ─── */
 
 @keyframes glitch-skew {
@@ -168,6 +203,23 @@ h1, h2, h3, h4, h5, h6 {
   animation: glitch-skew 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
   color: var(--primary);
   text-shadow: 2px 0 var(--secondary), -2px 0 var(--accent);
+}
+
+@media (max-width: 768px) {
+  .hover-glitch {
+    animation: none;
+    text-shadow: none;
+  }
+}
+
+/* ─── SCROLLBAR ─── */
+
+/* ─── MOBILE PERF ─── */
+
+@media (max-width: 768px) {
+  section {
+    transform: translateZ(0);
+  }
 }
 
 /* ─── SCROLLBAR ─── */
